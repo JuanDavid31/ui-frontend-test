@@ -19,6 +19,10 @@ class Producto extends Component{
                         <label>Fecha disponibilidad</label>
                         <p>{this.props.fecha}</p>
                     </div>
+                    <div>
+                        <label>Categoria</label>
+                        <p>{this.props.nombreCategoria}</p>
+                    </div>
                     <div id="ingredientes">
                         <ul>
                             {this.darIngredientes()}
@@ -28,7 +32,6 @@ class Producto extends Component{
                 <div className="card-action">
                     <button className="btn red lighten-2" type="submit" onClick={this.eliminar}>Eliminar</button>
                 </div>
-                
             </div>
         );
     }
@@ -47,12 +50,12 @@ class Producto extends Component{
             }
         }
 
-        fetch("https://stark-river-37912.herokuapp.com/eliminarProducto/" + this.props.id, datos)
+        fetch("https://apidpizza.herokuapp.com/eliminarProducto/" + this.props.id, datos)
         .then(this.atenderRespuesta)
         .catch(err => console.log(err));
     }
 
-    atenderRespuesta = (resp) =>{
+    atenderRespuesta = (resp) =>{ 
         if(resp.ok){
             this.props.actualizar();
         }else{
@@ -61,20 +64,28 @@ class Producto extends Component{
     }
 
     darIngredientes = () =>{
-        var ingredientes = this.props.ingredientes.split(", ").map( ingrediente =>{
-            return <li key={ingrediente}>{ingrediente}</li>
+        var ingredientes = this.props.ingredientes.split(",").map( ingrediente =>{
+            return <li key={ingrediente}>{ingrediente.trim()}</li>
         });
         return ingredientes;
     }
 
     darBotonFlotante = () =>{
-        if(this.props.urlImagen === null || this.props.urlImagen === ""){
+        if(!this.esValidaLaRuta()){
             return(
-                <Link to={"/foto/" + this.props.idSucursal + "/" + this.props.id} className="btn-floating halfway-fab waves-effect waves-light cyan">
+                <Link to={"/foto/" + this.props.idSucursal + "/" + this.props.id} className="btn-floating halfway-fab waves-effect waves-light cyan pulse">
                     <i className="material-icons">add</i>
                 </Link>
             ); 
         }
+    }
+
+    esValidaLaRuta = () =>{
+        var url = this.props.urlImagen;
+        if(url === null || url === ""){
+            return false;
+        }
+        return true;
     }
     
 }

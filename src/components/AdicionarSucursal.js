@@ -11,12 +11,12 @@ class AdicionarSucursal extends Component{
         return(
             <form id="adicionar-sucursal" onSubmit={this.adicionarSucursal}>
                 <div className="input-field">
-                    <input id="nombre" type="text" placeholder="Nombre" className="validate" onChange={this.cambiarNombre}></input>
+                    <input id="nombre" type="text" className="validate" onChange={this.cambiarNombre}></input>
                     <label htmlFor="nombre">Nombre</label>
                 </div>
                 <div className="input-field">
-                    <input id="direccion" maxLength="45" type="text" placeholder="Direccion" className="validate" onChange={this.cambiarDireccion}></input>
-                    <label htmlFor="direccion">Nombre</label>
+                    <input id="direccion" maxLength="45" type="text" className="validate" onChange={this.cambiarDireccion}></input>
+                    <label htmlFor="direccion">Direccion</label>
                 </div>
                 <button className="btn-large" type="submit">Adicionar sucursal
                     <i className="material-icons right">send</i>
@@ -53,17 +53,20 @@ class AdicionarSucursal extends Component{
             }
         }
 
-        fetch("https://stark-river-37912.herokuapp.com/adicionarSucursal", datos)
+        fetch("https://apidpizza.herokuapp.com/adicionarSucursal", datos)
             .then(this.atenderRespuesta)
             .catch(err => console.log(err));
     }
 
     atenderRespuesta = (resp) =>{
         if(resp.ok){
-			this.props.actualizar();
+            this.props.actualizar();
+            alert("Sucursal adicionada");
+		}else if(resp.status === 500){
+            alert("Ya existe el nombre de la sucursal");
 		}else{
-			resp.text().then(text => console.log(text));
-		}
+            resp.text().then(text => alert(text));
+        }
     }
 }
 

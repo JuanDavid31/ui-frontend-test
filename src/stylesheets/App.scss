@@ -125,6 +125,9 @@ body{
                 height:150px;
                 width:200px;
             }
+            .card{
+                height:540px;
+            }
         }
     }
 
@@ -152,6 +155,8 @@ body{
    .card-action{
        padding-top:12px;
        padding-bottom:12px;
+       bottom:-50px;
+       
    }
 
    #subir-foto{

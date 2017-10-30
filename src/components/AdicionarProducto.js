@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router';
 import {Input} from 'react-materialize';
 
 class AdicionarProducto extends Component{
@@ -10,27 +9,23 @@ class AdicionarProducto extends Component{
             categorias: [],
             nombre: "",
             ingredientes:"",
-            precio:0,
+            precio:"",
             fecha:"",
-            idCategoria:-1,
-            redireccionar:false
+            idCategoria:-1
         }
     }
 
     render(){
-        if(this.state.redireccionar){
-            return <Redirect to={"/sucursal/" + this.props.match.params.id}/>
-        }
         return(
             <form id="adicionar-producto" onSubmit={this.adicionarProducto}>
                 <div className="input-field">
                     <input id="nombre" type="text" className="validate" value={this.state.nombre} placeholder="Nombre" onChange={this.cambiarNombre} required></input>
                 </div>
                 <div className="input-field">
-                    <input id="precio" type="number" min="0" step="1" className="validate" value={this.state.precio} placeholder="Precio" onChange={this.cambiarPrecio} required></input>
+                    <input id="precio" placeholder="Precio" type="number" className="validate" value={this.state.precio} onChange={this.cambiarPrecio} required></input>
                 </div>
-                <div >
-                    <Input name='on' type='date' value={this.state.fecha} placeholder="Fecha" onChange={this.cambiarFecha}/>
+                <div className="input-field">
+                    <Input name='on' type='date' value={this.state.fecha} placeholder="Fecha" onChange={this.cambiarFecha} required/>
                 </div>
                 <div>
                     <label>Categoria</label>
@@ -52,7 +47,7 @@ class AdicionarProducto extends Component{
     }
 
     componentDidMount(){   
-        fetch("https://stark-river-37912.herokuapp.com/categorias.json")
+        fetch("https://apidpizza.herokuapp.com/categorias.json")
         .then(resp => resp.json())
         .then(json => this.setState({categorias:json, idCategoria:json[0].cId}))
         .catch(err => console.log(err))
@@ -111,16 +106,17 @@ class AdicionarProducto extends Component{
             }
         }
 
-        fetch("https://stark-river-37912.herokuapp.com/adicionarProducto/" + this.props.match.params.id + "/" + this.state.idCategoria, datos)
+        fetch("https://apidpizza.herokuapp.com/adicionarProducto/" + this.props.match.params.id + "/" + this.state.idCategoria, datos)
             .then(this.atenderRespuesta)
             .catch(err => console.log(err));
     }
     
     atenderRespuesta = (resp) =>{
-        if(resp.ok){ console.log("Producto adicionado"); //Usar un redirect
-			this.setState({redireccionar:true});
+        if(resp.ok){
+            this.props.history.push("/sucursal/" + this.props.match.params.id);
 		}else{
-			resp.text().then(text => console.log(text));
+            alert("No existe la sucursal " + this.props.match.params.id);
+            this.props.history.push("/");
 		}
     }
 }

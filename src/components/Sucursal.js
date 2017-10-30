@@ -16,7 +16,7 @@ class Sucursal extends Component{
         return(
             <div className="sucursal hoverable card-panel">
                 <div className="panel-superior">
-                    <Link to={"/sucursal/" + this.props.id}>{this.props.nombre}</Link>
+                    <Link className="pulse" to={"/sucursal/" + this.props.id}>{this.props.nombre}</Link>
                     <p>{this.props.direccion}</p>
                 </div>
                 <div className="panel-inferior">
@@ -41,7 +41,7 @@ class Sucursal extends Component{
             }
         }
 
-        fetch("https://stark-river-37912.herokuapp.com/eliminarSucursal/" + this.props.id, datos)
+        fetch("https://apidpizza.herokuapp.com/eliminarSucursal/" + this.props.id, datos)
         .then(this.atenderRespuesta)
         .catch(err => console.log(err));
     }
@@ -51,7 +51,7 @@ class Sucursal extends Component{
             this.props.actualizar();
             this.setState({redireccionar:true});
         }else{
-            resp.text().then(text => console.log(text));
+            resp.text().then(text => alert(text));
         }
     }
 }

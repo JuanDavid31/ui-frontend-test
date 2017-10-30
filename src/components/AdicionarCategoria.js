@@ -37,7 +37,7 @@ class AdicionarCategoria extends Component{
             }
         }
 
-        fetch("https://stark-river-37912.herokuapp.com/adicionarCategoria", datos)
+        fetch("https://apidpizza.herokuapp.com/adicionarCategoria", datos)
             .then(this.actualizar)
             .catch(err => console.log(err));
     }

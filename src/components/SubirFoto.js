@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router';
 import $ from 'jquery';
 
 class SubirFoto extends Component{
@@ -8,15 +7,11 @@ class SubirFoto extends Component{
         super();
         this.state  = {
             opcion: "1",
-            url:"",
-            redireccionar:""
+            url:""
         };
     }
 
     render(){
-        if(this.state.redireccionar){
-            return <Redirect to={this.state.redireccionar} />
-        }
         return(
             <div id="subir-foto">
                 <select className="browser-default" onChange={this.cambiarSelect}>
@@ -58,10 +53,10 @@ class SubirFoto extends Component{
 
     adicionarFoto = (e) =>{
         e.preventDefault();
-        this.subirFoto();
+        this.enviarUrl();
     }
 
-    subirFoto = () =>{
+    enviarUrl = () =>{
         let datos = {
             method: 'PUT',
             body: JSON.stringify({
@@ -73,8 +68,8 @@ class SubirFoto extends Component{
             }
         }
 
-        fetch("https://stark-river-37912.herokuapp.com/editarProductoConUrl/" + this.props.match.params.producto, datos)
-            .then(this.atenderRespuesta)
+        fetch("https://apidpizza.herokuapp.com/editarProductoConUrl/" + this.props.match.params.producto, datos)
+            .then(this.atenderPut)
             .catch(err => console.log(err));
     }
 
@@ -84,18 +79,18 @@ class SubirFoto extends Component{
                 <div className="file-field input-field">
                     <div className="btn black">
                         <span>Escoger</span>
-                        <input type="file" name="cancion"/>
+                        <input type="file" name="foto"/>
                     </div>
                     <div className="file-path-wrapper">
                         <input className="file-path validate" type="text"/>
                     </div>
-                    <input className="btn teal darken-4" type="submit" onClick={this.subirCancion} value="Subir cancion"/>
+                    <input className="btn teal darken-4" type="submit" onClick={this.subirFoto} value="Subir foto"/>
                 </div>
             </form>
         );
     }
 
-    subirCancion = (e) =>{
+    subirFoto = (e) =>{
         e.preventDefault()
         var data = this.darData();
         var datos = {
@@ -104,8 +99,8 @@ class SubirFoto extends Component{
         }
         this.bloquearVentana();
     
-        fetch("https://stark-river-37912.herokuapp.com/editarProductoConArchivo/" + this.props.match.params.producto, datos)
-        .then(this.atenderRespuesta)
+        fetch("https://apidpizza.herokuapp.com/editarProductoConArchivo/" + this.props.match.params.producto, datos)
+        .then(this.atenderPost)
         .catch(err => console.log(err));
     }
 
@@ -126,14 +121,24 @@ class SubirFoto extends Component{
         $(window).unbind('beforeunload');
     }
 
-    atenderRespuesta = (resp) =>{
+    atenderPost = (resp) =>{
         this.desbloquearVentana();
         if(resp.ok){
-            console.log("cancion subida");
-            this.setState({redireccionar:"/sucursal/"+this.props.match.params.id});
+            resp.text().then(texto => alert(texto));
+            this.props.history.push("/sucursal/"+this.props.match.params.id);
         }else{
-            console.log("No sé, un error");
-            this.setState({redireccionar:"/"});
+            resp.text().then(texto => alert(texto));
+            this.props.history.push("/");
+        }
+    }
+
+    atenderPut = (resp) =>{
+        if(resp.ok){
+            resp.text().then(texto => alert(texto));
+            this.props.history.push("/sucursal/"+this.props.match.params.id);
+        }else{
+            resp.text().then(texto => alert(texto));
+            this.props.history.push("/");
         }
     }
 }

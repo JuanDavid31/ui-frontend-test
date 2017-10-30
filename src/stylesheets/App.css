@@ -90,6 +90,8 @@ body, html {
       #rutas #menu #productos img {
         height: 150px;
         width: 200px; }
+      #rutas #menu #productos .card {
+        height: 540px; }
   #rutas form {
     height: 100%;
     width: 60%;
@@ -105,7 +107,8 @@ body, html {
       overflow: auto; }
   #rutas .card-action {
     padding-top: 12px;
-    padding-bottom: 12px; }
+    padding-bottom: 12px;
+    bottom: -50px; }
   #rutas #subir-foto {
     height: 100%;
     width: 60%; }

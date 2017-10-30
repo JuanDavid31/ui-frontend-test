@@ -29,7 +29,7 @@ class DPizza extends Component{
     }
 
     actualizar = () =>{
-        fetch("https://stark-river-37912.herokuapp.com/sucursales.json")
+        fetch("https://apidpizza.herokuapp.com/sucursales.json")
         .then(resp => resp.json())
         .then(this.adicionarSucursales)
         .catch(err => console.log(err));

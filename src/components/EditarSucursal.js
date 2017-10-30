@@ -31,9 +31,19 @@ class EditarSucursal extends Component{
     }
 
     hacerPeticion = () =>{
-        fetch("https://stark-river-37912.herokuapp.com/sucursales.json/" + this.props.match.params.id)
-        .then(resp => resp.json())
-        .then(json => this.setState({nombre:json.dNombre, direccion:json.aDireccion}));
+        fetch("https://apidpizza.herokuapp.com/sucursales.json/" + this.props.match.params.id)
+        .then(this.atenderEdicion)
+        .catch(err => console.log(err));
+    }
+
+    atenderEdicion = (resp) =>{
+        if(resp.ok){
+            resp.json()
+            .then(json => this.setState({nombre:json.dNombre, direccion:json.aDireccion}));
+        }else{
+            alert("No existe la sucursal " + this.props.match.params.id);
+            this.props.history.push("/");
+        }
     }
 
     cambiarNombre = (e) =>{
@@ -64,12 +74,12 @@ class EditarSucursal extends Component{
             }
         }
 
-        fetch("https://stark-river-37912.herokuapp.com/actualizarSucursal/" + this.props.match.params.id, datos)
-            .then(this.atenderRespuesta)
+        fetch("https://apidpizza.herokuapp.com/actualizarSucursal/" + this.props.match.params.id, datos)
+            .then(this.atenderActualizacion)
             .catch(err => console.log(err));
     }
 
-    atenderRespuesta = (resp) =>{
+    atenderActualizacion = (resp) =>{
         if(resp.ok){
 			this.props.history.push("/");
 		}else{
