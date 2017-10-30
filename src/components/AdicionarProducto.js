@@ -114,7 +114,12 @@ class AdicionarProducto extends Component{
     atenderRespuesta = (resp) =>{
         if(resp.ok){
             this.props.history.push("/sucursal/" + this.props.match.params.id);
-		}else{
+		}else if(resp.status === 500){
+            alert("El producto ya existe");
+            this.props.history.push("/");
+        }else if(resp.status === 400){
+            resp.text().then(texto => alert(texto));
+        }else{
             alert("No existe la sucursal " + this.props.match.params.id);
             this.props.history.push("/");
 		}

@@ -14,6 +14,7 @@ class SubirFoto extends Component{
     render(){
         return(
             <div id="subir-foto">
+                <p> Puedes subir un archivo o usar una url</p>
                 <select className="browser-default" onChange={this.cambiarSelect}>
                     <option value="1">Url imagen</option>
                     <option value="2">Subir archivo</option>
@@ -39,7 +40,7 @@ class SubirFoto extends Component{
         return(
             <form onSubmit={this.adicionarFoto}>
                 <div className="input-field">
-                    <input type="text" placeholder="Url imagen" onChange={this.cambiarUrl}></input>
+                    <input type="text" placeholder="Url imagen" onChange={this.cambiarUrl} required></input>
                 </div>
                 <input type="submit" className="btn teal darken-4" value="Añadir"></input>
             </form>
