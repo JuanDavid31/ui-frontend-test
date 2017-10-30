@@ -11,11 +11,11 @@ class AdicionarSucursal extends Component{
         return(
             <form id="adicionar-sucursal" onSubmit={this.adicionarSucursal}>
                 <div className="input-field">
-                    <input id="nombre" type="text" className="validate" onChange={this.cambiarNombre}></input>
+                    <input id="nombre" type="text" className="validate" onChange={this.cambiarNombre} required></input>
                     <label htmlFor="nombre">Nombre</label>
                 </div>
                 <div className="input-field">
-                    <input id="direccion" maxLength="45" type="text" className="validate" onChange={this.cambiarDireccion}></input>
+                    <input id="direccion" maxLength="45" type="text" className="validate" onChange={this.cambiarDireccion} required></input>
                     <label htmlFor="direccion">Direccion</label>
                 </div>
                 <button className="btn-large" type="submit">Adicionar sucursal

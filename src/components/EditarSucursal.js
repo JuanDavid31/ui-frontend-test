@@ -13,8 +13,8 @@ class EditarSucursal extends Component{
     render(){
         return(
             <form onSubmit={this.editarSucursal}>
-                <input type="text" placeholder="Nuevo nombre" value={this.state.nombre} onChange={this.cambiarNombre}></input>
-                <input type="text" placeholder="Nueva direccion" value={this.state.direccion} onChange={this.cambiarDireccion}></input>
+                <input type="text" placeholder="Nuevo nombre" value={this.state.nombre} onChange={this.cambiarNombre} required></input>
+                <input type="text" placeholder="Nueva direccion" value={this.state.direccion} onChange={this.cambiarDireccion} required></input>
                 <input type="submit" className="btn teal darken-4" value="Guardar"></input>
             </form>
         );
